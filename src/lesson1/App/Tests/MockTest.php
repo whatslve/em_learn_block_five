@@ -20,6 +20,6 @@ final class MockTest extends TestCase
             ->willReturn($user);
 
         $result = $repoMock->findUserByEmail($email);
-
+        self::assertSame($user, $result);
     }
 }

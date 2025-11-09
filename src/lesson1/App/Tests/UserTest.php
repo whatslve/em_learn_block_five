@@ -2,23 +2,7 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 use PHPUnit\Framework\TestCase;
 use App\Classes\User;
-class FakeClient  {
-    public string $baseUri;
-    public int $statusCode;
-    public function __construct($baseUri) {
-        $this->baseUri = $baseUri;
-    }
-
-    public function request($type, $action) {
-        //request
-        $this->statusCode = 200;
-        return $this;
-    }
-
-    public function getStatusCode() {
-        return $this->statusCode;
-    }
-}
+use GuzzleHttp\Client;
 class UserTest extends TestCase {
     public function test_get_user() {
         $user = new User();
@@ -39,9 +23,13 @@ class UserTest extends TestCase {
 
     public function testUserApiReturnsUsers(): void
     {
-        $client = new FakeClient('127.0.0.1:8000');
-        $response = $client->request('GET', '/users');
-
+        $httpClient = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'http://192.168.1.117:8080',
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+        $response = $httpClient->request('GET', 'lesson1/App/Api/endpoint.php');
         $this->assertEquals(200, $response->getStatusCode());
     }
 
