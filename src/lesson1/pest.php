@@ -1,4 +1,4 @@
 <?php
 use Pest\TestSuite;
 
-TestSuite::getInstance()->setTestPath('pests');
+TestSuite::getInstance()->setTestPath('tests');
